@@ -20,18 +20,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.MailOutline
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -49,9 +45,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.visitenkarte.helper.drawableResourceToBitmap
 import com.example.visitenkarte.helper.toByteArray
 import com.example.visitenkarte.model.Author
@@ -65,6 +59,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            //Dummy
             val booksList = mutableListOf(
                 Book(
                     title = "Star Wars Dark Lord The Rise of Darth Vader",
@@ -178,61 +173,3 @@ fun MiniFABs(icon:ImageVector, title:String) {
 }
 
 data class MiniFabItems(val icon: ImageVector, val title:String)
-
-@Composable
-fun ScreenContent(name: String, role: String, phoneNumber: String, smHandle: String, email: String, modifier:Modifier) {
-    Column(modifier = modifier.fillMaxSize()) {
-        WorkInfo(name, role)
-        Spacer(modifier.height(250.dp))
-        ContactInfo(phoneNumber,smHandle,email,modifier)
-    }
-
-}
-
-@Composable
-fun WorkInfo(name: String, role: String){
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text(
-            name,
-            fontSize = 45.sp,
-            textAlign = TextAlign.Center
-        )
-        Text(
-            role,
-            fontSize = 30.sp,
-            textAlign = TextAlign.Center
-        )
-    }
-}
-@Composable
-fun ContactInfo(phoneNumber: String, smHandle: String ,email: String, modifier: Modifier){
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Bottom
-    ) {
-        Row{
-            Icon(
-                imageVector = Icons.Default.Call,
-                contentDescription = null
-            )
-            Text(phoneNumber, fontSize = 25.sp)
-        }
-        Row {
-            Icon(
-                imageVector = Icons.Default.AccountCircle,
-                contentDescription = null
-            )
-            Text(smHandle, fontSize = 25.sp)
-        }
-        Row {
-            Icon(
-                imageVector = Icons.Default.MailOutline,
-                contentDescription = null
-            )
-            Text(email, fontSize = 25.sp)
-        }
-    }
-}
