@@ -16,6 +16,7 @@ class Book(
     val originalReleaseDate: Date,
     val translatedReleaseDate: Date = originalReleaseDate,
     val frontCoverByteArray: ByteArray,
-    val blurbText:String
+    val blurbText:String,
+    val readingStatus: ReadingStatus = ReadingStatus.TBR
     ) {
 }
