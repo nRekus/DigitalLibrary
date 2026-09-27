@@ -1,7 +1,6 @@
-package com.example.visitenkarte
+package com.example.visitenkarte.ui
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,6 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.visitenkarte.R
 import com.example.visitenkarte.helper.toBitmap
 import com.example.visitenkarte.model.Book
 
@@ -43,8 +43,6 @@ fun BookCoverCard(currentBook: Book, modifier: Modifier = Modifier,onCloseFuncti
             .fillMaxHeight(0.882f)
             .padding(24.dp, topAndBottomPadding),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-
-
         ) {
         BookCoverCardHeader(setIsFront, isFront, modifier, onCloseFunction)
         BookCoverCardContent(currentBook,modifier, isFront)
@@ -91,11 +89,11 @@ private fun BookCoverCardHeader(
 }
 
 @Composable
-fun BookCoverCardContent(currentBook: Book,modifier: Modifier = Modifier, isFront: Boolean = true) {
+fun BookCoverCardContent(currentBook: Book, modifier: Modifier = Modifier, isFront: Boolean = true) {
     if (isFront) {
         Image(
             bitmap = currentBook.frontCoverByteArray.toBitmap().asImageBitmap(),
-            contentDescription = "Book Cover Image",
+            contentDescription = "Book Frontcover Image",
             contentScale = ContentScale.FillHeight,
             modifier = modifier.fillMaxWidth()
         )
@@ -106,7 +104,6 @@ fun BookCoverCardContent(currentBook: Book,modifier: Modifier = Modifier, isFron
 
 @Composable
 fun BookInfoCard(currentBook:Book) {
-
     Column {
         Text(
             text = currentBook.originalTitle,
