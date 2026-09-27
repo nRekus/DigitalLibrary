@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -10,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.visitenkarte"
-        minSdk = 21
+        minSdk = 24
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -49,6 +50,24 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+
+    // ROOM (Database) Dependencies
+//    implementation(libs.androidx.room3.runtime)
+//    ksp(libs.androidx.room3.compiler)
+
+    // Navigation Dependencies
+    // Jetpack Compose integration
+//    implementation(libs.androidx.navigation.compose)
+//    // Views/Fragments integration
+//    implementation(libs.androidx.navigation.fragment)
+//    implementation(libs.androidx.navigation.ui)
+//    // Feature module support for Fragments
+//    implementation(libs.androidx.navigation.dynamic.features.fragment)
+//    // Testing Navigation
+//    androidTestImplementation(libs.androidx.navigation.testing)
+//    // JSON serialization library, works with the Kotlin serialization plugin
+//    implementation(libs.kotlinx.serialization.json)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
