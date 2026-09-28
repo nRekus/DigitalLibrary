@@ -48,9 +48,9 @@ fun MyFAB(modifier: Modifier = Modifier) {
     )
     val items = remember {
         listOf(
-            MiniFabItems(Icons.Filled.AccountCircle, "Account"),
-            MiniFabItems(Icons.Filled.Edit, "Add Book"),
-            MiniFabItems(Icons.Filled.Done, "Finished Books")
+            MiniFabItems(Icons.Filled.AccountCircle, "Account",{}),
+            MiniFabItems(Icons.Filled.Edit, "Add Book",{}),
+            MiniFabItems(Icons.Filled.Done, "Finished Books",{})
         )
     }
     Column(
@@ -69,7 +69,7 @@ fun MyFAB(modifier: Modifier = Modifier) {
             ) {
                 items.forEach { item ->
                     key(item.title) {
-                        MiniFABs(item.icon, item.title)
+                        MiniFABs(item.icon, item.title, item.func)
                     }
                 }
             }
@@ -89,7 +89,7 @@ fun MyFAB(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun MiniFABs(icon: ImageVector, title: String) {
+fun MiniFABs(icon: ImageVector, title: String, func:() -> Unit) {
     Row(verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.End
     )
@@ -106,7 +106,7 @@ fun MiniFABs(icon: ImageVector, title: String) {
         ) {
             Text(title)
         }
-        FloatingActionButton(onClick = {}, modifier = Modifier.padding(4.dp)) {
+        FloatingActionButton(onClick = func, modifier = Modifier.padding(4.dp)) {
             Icon(icon, contentDescription = null)
         }
     }
@@ -114,4 +114,4 @@ fun MiniFABs(icon: ImageVector, title: String) {
 
 }
 @Stable
-data class MiniFabItems(val icon: ImageVector, val title: String)
+data class MiniFabItems(val icon: ImageVector, val title: String, val func:()->Unit)

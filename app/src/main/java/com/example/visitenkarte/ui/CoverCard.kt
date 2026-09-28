@@ -94,7 +94,7 @@ fun BookCoverCardContent(currentBook: Book, modifier: Modifier = Modifier, isFro
         Image(
             bitmap = currentBook.frontCoverByteArray.toBitmap().asImageBitmap(),
             contentDescription = "Book Frontcover Image",
-            contentScale = ContentScale.FillHeight,
+            contentScale = ContentScale.Crop,
             modifier = modifier.fillMaxWidth()
         )
     } else {
