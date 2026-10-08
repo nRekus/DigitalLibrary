@@ -1,21 +1,27 @@
 package com.example.visitenkarte.ui
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Warning
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -23,65 +29,50 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.example.visitenkarte.R
-import com.example.visitenkarte.helper.drawableResourceToBitmap
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.visitenkarte.helper.toBitmap
-import com.example.visitenkarte.helper.toByteArray
-import com.example.visitenkarte.model.Author
 import com.example.visitenkarte.model.Book
-import com.example.visitenkarte.model.Publisher
-import com.example.visitenkarte.model.ReadingStatus
-import java.util.Date
+import com.example.visitenkarte.ui.viewmodels.BookViewModel
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.window.Dialog
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.visitenkarte.ui.viewmodels.BookUiState
 
 @Composable
-fun ListScreen(paddingValues: PaddingValues) {
-    //Dummy
-    val ctx = LocalContext.current.resources
-    val booksList =  remember {
-        mutableListOf(
-            Book(
-                title = "Star Wars Dark Lord The Rise of Darth Vader",
-                publisher = Publisher.BENVELET,
-                numPages = 643,
-                originalReleaseDate = Date(),
-                frontCoverByteArray = drawableResourceToBitmap(
-                    ctx,
-                    R.drawable.tmp_img
-                ).toByteArray(),
-                blurbText = "The Text from the Back Cover of The Book",
-                author = Author("James", "Luceno", "01-04-1947")
-            ),
-            Book(
-                title = "Star Wars Tarkin",
-                publisher = Publisher.BENVELET,
-                numPages = 643,
-                originalReleaseDate = Date(),
-                frontCoverByteArray = drawableResourceToBitmap(
-                    ctx,
-                    R.drawable.tarkin
-                ).toByteArray(),
-                blurbText = "The Text from the Back Cover of The Book",
-                author = Author("James", "Luceno", "01-04-1947")
-            ),
-            Book(
-                title = "Star Wars Darth Plagueis",
-                publisher = Publisher.BENVELET,
-                numPages = 756,
-                originalReleaseDate = Date(),
-                frontCoverByteArray = drawableResourceToBitmap(
-                    ctx,
-                    R.drawable.star_wars_darth_plagueis_taschenbuch_james_luceno
-                ).toByteArray(),
-                blurbText = "asdf",
-                author = Author("James", "Luceno", "01-04-1947"),
-                readingStatus = ReadingStatus.FINISHED
-            )
-        )
-    }
-
+fun ListScreen(
+    paddingValues: PaddingValues,
+    viewModel: BookViewModel = viewModel()
+) {
     val selectedBook = remember { mutableStateOf<Book?>(null) }
+    val uiState by viewModel.uiState.collectAsState()
+    when(uiState){
+        is BookUiState.Loading -> {
+            Box(){
+                CircularProgressIndicator()
+            }
+        }
+        is BookUiState.Error -> {
+            ErrorScreen()
+        }
+        is BookUiState.Success -> {
+            BookGrid(paddingValues, uiState, selectedBook)
+            selectedBook.value?.let { book ->
+                BookCoverCard(book, Modifier) {
+                    selectedBook.value = null
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun BookGrid(
+    paddingValues: PaddingValues,
+    uiState: BookUiState,
+    selectedBook: MutableState<Book?>
+) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         verticalArrangement = Arrangement.Top,
@@ -90,17 +81,20 @@ fun ListScreen(paddingValues: PaddingValues) {
             .fillMaxSize()
     )
     {
-            items(booksList) { book1 ->
-                ListScreenItem(book1, onClick = { selectedBook.value = book1 })
-            }
-        }
-    selectedBook.value?.let { book ->
-        BookCoverCard(book, Modifier) {
-            selectedBook.value = null
+        items((uiState as BookUiState.Success).book) { book ->
+            ListScreenItem(book, onClick = { selectedBook.value = book })
         }
     }
 }
 
+@Composable
+fun ErrorScreen(modifier: Modifier = Modifier) {
+    Dialog(
+        onDismissRequest = {}
+    ) { Text("Error") }
+}
+
+@SuppressLint("ConfigurationScreenWidthHeight")
 @Composable
 fun ListScreenItem(book: Book?, onClick: (Book?) -> Unit) {
     val cardHeight = LocalConfiguration.current.screenHeightDp * 0.276
@@ -119,14 +113,28 @@ fun ListScreenItem(book: Book?, onClick: (Book?) -> Unit) {
         elevation = CardDefaults.cardElevation(4.dp)
     ) {
         if (book != null) {
-            Image(
-                bitmap = book.frontCoverByteArray.toBitmap().asImageBitmap(),
-                contentDescription = "Book Frontcover Item",
-                alignment = Alignment.Center,
-                contentScale = ContentScale.Crop
-            )
+            if(book.frontCoverByteArray.isNotEmpty()){
+                val bitmap = remember { book.frontCoverByteArray.toBitmap().asImageBitmap() }
+                Image(
+                    bitmap = bitmap,
+                    contentDescription = "Book Frontcover Item",
+                    alignment = Alignment.Center,
+                    contentScale = ContentScale.Crop
+                )
+            }else{
+                PlaceholderCover(Modifier)
+            }
+
         }
     }
+}
 
-
+@Composable
+fun PlaceholderCover(modifier: Modifier = Modifier) {
+    Box(contentAlignment = Alignment.Center,
+        modifier = modifier.fillMaxSize().padding(4.dp)){
+        Icon(imageVector = Icons.Outlined.Warning,
+            contentDescription = "No Image Provided",
+            )
+    }
 }
