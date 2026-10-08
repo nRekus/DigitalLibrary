@@ -91,12 +91,16 @@ private fun BookCoverCardHeader(
 @Composable
 fun BookCoverCardContent(currentBook: Book, modifier: Modifier = Modifier, isFront: Boolean = true) {
     if (isFront) {
-        Image(
-            bitmap = currentBook.frontCoverByteArray.toBitmap().asImageBitmap(),
-            contentDescription = "Book Frontcover Image",
-            contentScale = ContentScale.Crop,
-            modifier = modifier.fillMaxWidth()
-        )
+        if(currentBook.frontCoverByteArray.isNotEmpty()) {
+            Image(
+                bitmap = currentBook.frontCoverByteArray.toBitmap().asImageBitmap(),
+                contentDescription = "Book Frontcover Image",
+                contentScale = ContentScale.Crop,
+                modifier = modifier.fillMaxWidth()
+            )
+        }else{
+            PlaceholderCover(modifier)
+        }
     } else {
         BookInfoCard(currentBook)
     }

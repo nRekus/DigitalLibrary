@@ -17,6 +17,7 @@ import com.example.visitenkarte.ui.AddBookScreen
 import com.example.visitenkarte.ui.ListScreen
 import com.example.visitenkarte.ui.MyFAB
 import com.example.visitenkarte.ui.theme.VisitenkarteTheme
+import com.example.visitenkarte.ui.viewmodels.BookViewModel
 
 class MainActivity : ComponentActivity() {
     //val db = LibraryDatabase()
@@ -38,14 +39,14 @@ class MainActivity : ComponentActivity() {
 //
 //            )
             VisitenkarteTheme {
-//                    Scaffold(
-//                        floatingActionButton = { MyFAB() },
-//                        floatingActionButtonPosition = FabPosition.End
-//                    )
-//                    { it: PaddingValues ->
-//                        ListScreen(it)
-//                    }
-                    AddBookScreen(Modifier)
+                    Scaffold(
+                        floatingActionButton = { MyFAB() },
+                        floatingActionButtonPosition = FabPosition.End
+                    )
+                    { it: PaddingValues ->
+                        ListScreen(it)
+                    }
+                    //AddBookScreen(Modifier)
             }
         }
     }
