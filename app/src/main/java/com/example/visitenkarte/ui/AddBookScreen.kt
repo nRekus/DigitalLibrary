@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -22,6 +22,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import com.example.visitenkarte.R
@@ -47,13 +50,22 @@ fun AddBookScreen(modifier: Modifier = Modifier) {
                 fontWeight = FontWeight.Medium,
                 fontSize = TextUnit.Unspecified
                 ),
-            //modifier = modifier.background(Color.Black),
+            singleLine = true,
             trailingIcon = {
                 IconButton(onClick = {toast.show()},
                     modifier.background(Color.Black).padding(4.dp)
                     ,content = {
-                Icon(painterResource( R.drawable.photo_camera_32dp_e3e3e3_fill0_wght400_grad0_opsz40),"Camera")
-                    })}
+                Icon(
+                    painterResource(
+                        R.drawable.photo_camera_32dp_e3e3e3_fill0_wght400_grad0_opsz40
+                    ),
+                    "Camera")
+                    })},
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Number,
+                imeAction = ImeAction.Done,
+                capitalization = KeyboardCapitalization.None
+            )
 
         )
         Button(
@@ -61,6 +73,4 @@ fun AddBookScreen(modifier: Modifier = Modifier) {
             content = {Text("Add Book to Digital Library")}
         )
     }
-
-
 }
