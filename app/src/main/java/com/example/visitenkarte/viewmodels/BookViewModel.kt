@@ -1,4 +1,4 @@
-package com.example.visitenkarte.ui.viewmodels
+package com.example.visitenkarte.viewmodels
 
 import android.app.Application
 import android.content.res.Resources
