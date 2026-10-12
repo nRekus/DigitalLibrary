@@ -33,12 +33,12 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.visitenkarte.helper.toBitmap
 import com.example.visitenkarte.model.Book
-import com.example.visitenkarte.ui.viewmodels.BookViewModel
+import com.example.visitenkarte.viewmodels.BookViewModel
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.visitenkarte.ui.viewmodels.BookUiState
+import com.example.visitenkarte.viewmodels.BookUiState
 
 @Composable
 fun ListScreen(
