@@ -1,8 +1,12 @@
+import org.gradle.kotlin.dsl.implementation
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    id("com.google.devtools.ksp")
+    //id("org.jetbrains.kotlin.compose")
+    //alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -29,17 +33,19 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "11"
-    }
+
     buildFeatures {
         compose = true
     }
 }
-
+kotlin{
+    compilerOptions{
+        jvmTarget.set(JvmTarget.JVM_17)
+    }
+}
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -50,11 +56,18 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+
+    // Compose Viewmodel
     implementation(libs.androidx.lifecycle.viewmodel.compose)
 
+    // retrofit
+    implementation(libs.retrofit.core)
+    // gson converter
+    implementation(libs.retrofit.converter.gson)
+
     // ROOM (Database) Dependencies
-//    implementation(libs.androidx.room3.runtime)
-//    ksp(libs.androidx.room3.compiler)
+    implementation(libs.androidx.room3.runtime)
+    ksp(libs.androidx.room3.compiler)
 
     // Navigation Dependencies
     // Jetpack Compose integration
