@@ -11,16 +11,16 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.example.visitenkarte.ui.AddBookScreen
+import com.example.visitenkarte.ui.FetchedBookScreen
 //import androidx.navigation3.runtime.entryProvider
 //import androidx.navigation3.ui.NavDisplay
 //import com.example.visitenkarte.data.local.database.LibraryDatabase
 import com.example.visitenkarte.ui.ListScreen
 import com.example.visitenkarte.ui.MyFAB
 import com.example.visitenkarte.ui.theme.VisitenkarteTheme
-import com.example.visitenkarte.ui.viewmodels.BookViewModel
+import com.example.visitenkarte.viewmodels.BookViewModel
 
 class MainActivity : ComponentActivity() {
-    //val db = LibraryDatabase()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -35,18 +35,28 @@ class MainActivity : ComponentActivity() {
 //                    entry<Screen.Home>{
 //
 //                    }
+//                    entry<Screen.Details>{
+//
+//                    }
+//                    entry<Screen.AddBook>{
+//
+//                    }
+//                    entry<Screen.BookScan>{
+//
+//                    }
 //                }
 //
 //            )
             VisitenkarteTheme {
-                    Scaffold(
-                        floatingActionButton = { MyFAB() },
-                        floatingActionButtonPosition = FabPosition.End
-                    )
-                    { it: PaddingValues ->
-                        ListScreen(it)
-                    }
+//                    Scaffold(
+//                        floatingActionButton = { MyFAB() },
+//                        floatingActionButtonPosition = FabPosition.End
+//                    )
+//                    { it: PaddingValues ->
+//                        ListScreen(it)
+//                    }
                     //AddBookScreen(Modifier)
+                FetchedBookScreen()
             }
         }
     }
