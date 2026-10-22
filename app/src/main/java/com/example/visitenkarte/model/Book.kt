@@ -7,7 +7,7 @@ import java.util.Date
 data class Book(
     val isbn13: String = "",
     val title: String,
-    val publisher: Publisher,
+    val publisher: String,
     val author: Author,
     val numPages: Int,
     val originalTitle: String = title,
@@ -15,7 +15,7 @@ data class Book(
     val originalReleaseDate: Date,
     val translatedReleaseDate: Date = originalReleaseDate,
     val frontCoverByteArray: ByteArray,
-    val blurbText:String,
+    val blurbText: String,
     val readingStatus: ReadingStatus = ReadingStatus.TBR
     ) {
 }

@@ -7,11 +7,12 @@ plugins {
     //id("org.jetbrains.kotlin.compose")
     //alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.jetbrains.kotlin.serialization)
 }
 
 android {
     namespace = "com.example.visitenkarte"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.example.visitenkarte"
@@ -48,6 +49,7 @@ kotlin{
 }
 dependencies {
 
+    implementation(libs.androidx.compose.foundation.layout)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -69,18 +71,14 @@ dependencies {
     implementation(libs.androidx.room3.runtime)
     ksp(libs.androidx.room3.compiler)
 
-    // Navigation Dependencies
-    // Jetpack Compose integration
-//    implementation(libs.androidx.navigation.compose)
-//    // Views/Fragments integration
-//    implementation(libs.androidx.navigation.fragment)
-//    implementation(libs.androidx.navigation.ui)
-//    // Feature module support for Fragments
-//    implementation(libs.androidx.navigation.dynamic.features.fragment)
-//    // Testing Navigation
-//    androidTestImplementation(libs.androidx.navigation.testing)
-//    // JSON serialization library, works with the Kotlin serialization plugin
-//    implementation(libs.kotlinx.serialization.json)
+    // JSON serialization library, works with the Kotlin serialization plugin
+    implementation(libs.kotlinx.serialization.json)
+
+    implementation(libs.androidx.navigation3.ui)
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.lifecycle.viewmodel.navigation3)
+    implementation(libs.androidx.material3.adaptive.navigation3)
+    implementation(libs.kotlinx.serialization.core)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
