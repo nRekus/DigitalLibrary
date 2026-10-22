@@ -31,14 +31,18 @@ import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import androidx.navigation3.runtime.NavBackStack
+import androidx.navigation3.runtime.NavKey
+import com.example.visitenkarte.Screen
 
 @Composable
-fun MyFAB(modifier: Modifier = Modifier) {
+fun MyFAB(modifier: Modifier = Modifier, backStack: NavBackStack<NavKey>) {
     var extended by remember { mutableStateOf(false) }
     val transition = updateTransition(targetState = extended, label = "FAB transition")
 
@@ -48,9 +52,9 @@ fun MyFAB(modifier: Modifier = Modifier) {
     )
     val items = remember {
         listOf(
-            MiniFabItems(Icons.Filled.AccountCircle, "Account",{}),
-            MiniFabItems(Icons.Filled.Edit, "Add Book",{}),
-            MiniFabItems(Icons.Filled.Done, "Finished Books",{})
+            MiniFabItems(Icons.Filled.AccountCircle, "Account",{backStack.add(Screen.Account);extended = false}),
+            MiniFabItems(Icons.Filled.Edit, "Add Book",{backStack.add(Screen.AddBook); extended = false}),
+            MiniFabItems(Icons.Filled.Done, "Finished Books",{extended = false})
         )
     }
     Column(
@@ -97,11 +101,6 @@ fun MiniFABs(icon: ImageVector, title: String, func:() -> Unit) {
         Spacer(Modifier.weight(1f))
         Box(
             modifier = Modifier
-//                .border(
-//                    2.dp,
-//                    Color(0xffffefe5),
-//                    RoundedCornerShape(8.dp)
-//                )
                 .padding(4.dp)
         ) {
             Text(title)
@@ -110,8 +109,6 @@ fun MiniFABs(icon: ImageVector, title: String, func:() -> Unit) {
             Icon(icon, contentDescription = null)
         }
     }
-
-
 }
 @Stable
 data class MiniFabItems(val icon: ImageVector, val title: String, val func:()->Unit)
