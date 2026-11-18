@@ -14,7 +14,7 @@ data class Book(
     val translators: List<String> = emptyList(),
     val originalReleaseDate: Date,
     val translatedReleaseDate: Date = originalReleaseDate,
-    val frontCoverByteArray: ByteArray,
+    val frontCoverPath: String,
     val blurbText: String,
     val readingStatus: ReadingStatus = ReadingStatus.TBR
     ) {

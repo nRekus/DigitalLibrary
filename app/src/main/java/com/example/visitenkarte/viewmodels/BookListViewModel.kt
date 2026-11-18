@@ -3,15 +3,11 @@ package com.example.visitenkarte.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.visitenkarte.data.local.DummyRepository
-import com.example.visitenkarte.model.Author
 import com.example.visitenkarte.model.Book
-import com.example.visitenkarte.model.Publisher
-import com.example.visitenkarte.model.ReadingStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import java.util.Date
 
 sealed interface BookListUiState {
     data object Loading : BookListUiState
@@ -41,6 +37,16 @@ class BookListViewModel() : ViewModel() {
         }
 
     }
+
+//    companion object {
+//        val Factory = viewModelFactory {
+//            initializer {
+//                val application = this[APPLICATION_KEY]!!
+//                val repository = DummyRepository(application.applicationContext)
+//                BookListViewModel(repository)
+//            }
+//        }
+//    }
     fun refresh(){
         loadAllBooks()
     }

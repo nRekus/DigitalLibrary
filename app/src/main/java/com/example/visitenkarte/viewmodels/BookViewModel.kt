@@ -32,4 +32,14 @@ class BookViewModel(): ViewModel(){
         }
     }
 
+//    companion object {
+//        val Factory = viewModelFactory {
+//            initializer {
+//                val application = this[APPLICATION_KEY]!!
+//                val repository = DummyRepository()//(application.applicationContext)
+//                BookViewModel(repository)
+//            }
+//        }
+//    }
+
 }

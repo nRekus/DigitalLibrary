@@ -12,7 +12,7 @@ object BookMapper {
             author = book.author,
             numPages = book.numPages,
             originalReleaseDate = book.originalReleaseDate,
-            frontCoverByteArray = book.frontCoverByteArray,
+            frontCoverPath = "",
             blurbText = book.blurbText
         )
     }

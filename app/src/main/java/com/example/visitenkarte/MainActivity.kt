@@ -15,17 +15,12 @@ import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
-import com.example.visitenkarte.model.Author
-import com.example.visitenkarte.model.Book
-import com.example.visitenkarte.model.Publisher
 import com.example.visitenkarte.ui.AddBookScreen
 import com.example.visitenkarte.ui.BookCoverCard
 import com.example.visitenkarte.ui.ListScreen
 import com.example.visitenkarte.ui.MyFAB
 import com.example.visitenkarte.ui.UserScreen
 import com.example.visitenkarte.ui.theme.VisitenkarteTheme
-import com.example.visitenkarte.viewmodels.BookListViewModel
-import java.util.Date
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

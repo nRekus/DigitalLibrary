@@ -1,7 +1,6 @@
 package com.example.visitenkarte.ui
 
 import android.util.Log
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,8 +23,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -35,23 +32,23 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.visitenkarte.R
-import com.example.visitenkarte.helper.toBitmap
 import com.example.visitenkarte.model.Book
 import com.example.visitenkarte.viewmodels.BookUiState
 import com.example.visitenkarte.viewmodels.BookViewModel
 
-
+// package:mine  tag=:MYBOOK tag=:FILE tag=:FILENAME
 @Composable
 fun BookCoverCard(isbn:String,
                   modifier: Modifier = Modifier,
                   onCloseFunction:()->Unit,
-                  viewModel: BookViewModel = viewModel()
+                  viewModel: BookViewModel = viewModel()//factory = BookViewModel.Factory)
 ) {
     val screenHeightDp: Dp = LocalConfiguration.current.screenHeightDp.dp
     val topAndBottomPadding = screenHeightDp * 0.1f
     val (isFront, setIsFront) = remember { mutableStateOf(true) }
 
     val uiState by viewModel.uiState.collectAsState()
+    //val coverBitmap by viewModel.coverBitmap.collectAsState()
     LaunchedEffect(isbn) {
         viewModel.loadBookByISBN(isbn)
     }
@@ -62,16 +59,15 @@ fun BookCoverCard(isbn:String,
     }
     when(uiState){
         is BookUiState.Loading -> {
-            Box(){
+            Box {
                 CircularProgressIndicator()
             }
         }
 
-        is BookUiState.Error -> {
-            ErrorScreen()
-        }
+        is BookUiState.Error -> ErrorScreen()
         is BookUiState.Success -> {
             Log.i("MYBOOK",book.toString())
+            //viewModel.loadBookCoverImage(LocalContext.current)
         }
 
     }
@@ -127,18 +123,21 @@ private fun BookCoverCardHeader(
 }
 
 @Composable
-fun BookCoverCardContent(currentBook: Book?, modifier: Modifier = Modifier, isFront: Boolean = true) {
+fun BookCoverCardContent(currentBook: Book?,
+                         modifier: Modifier = Modifier,
+                         isFront: Boolean = true) {
     if(currentBook != null) {
         if (isFront) {
-            if (currentBook.frontCoverByteArray.isNotEmpty()) {
-                Image(
-                    bitmap = currentBook.frontCoverByteArray.toBitmap().asImageBitmap(),
-                    contentDescription = "Book Frontcover Image",
-                    contentScale = ContentScale.Crop,
-                    modifier = modifier.fillMaxWidth()
-                )
-            } else {
-                PlaceholderCover(modifier)
+            if(currentBook.frontCoverPath.isEmpty()) {
+//            val imageBitmap = remember(coverBitmap) {
+//                coverBitmap?.asImageBitmap()
+//            }
+                //                Image(
+//                    bitmap = imageBitmap,
+//                    contentDescription = "Book Frontcover Image",
+//                    contentScale = ContentScale.Crop,
+//                    modifier = modifier.fillMaxWidth()
+//                )
             }
         } else {
             BookInfoCard(currentBook)

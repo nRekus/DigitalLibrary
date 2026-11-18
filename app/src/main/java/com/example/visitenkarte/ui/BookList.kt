@@ -1,7 +1,6 @@
 package com.example.visitenkarte.ui
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,7 +15,6 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Warning
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -26,11 +24,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -38,7 +33,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 import com.example.visitenkarte.Screen
-import com.example.visitenkarte.helper.toBitmap
 import com.example.visitenkarte.model.Book
 import com.example.visitenkarte.viewmodels.BookListUiState
 import com.example.visitenkarte.viewmodels.BookListViewModel
@@ -52,7 +46,7 @@ fun ListScreen(
     val uiState by viewModel.uiState.collectAsState()
     when(uiState){
         is BookListUiState.Loading -> {
-            Box(){
+            Box {
                 CircularProgressIndicator()
             }
         }
@@ -115,7 +109,7 @@ fun ListScreenItem(book: Book?, onClick: (String)->Unit) {
             ),
         elevation = CardDefaults.cardElevation(4.dp)
     ) {
-        LinearProgressIndicator(progress = {Math.random().toFloat()},
+        LinearProgressIndicator(progress = {(420.0f/ (book?.numPages ?: 999))},
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(10.dp)
@@ -124,14 +118,15 @@ fun ListScreenItem(book: Book?, onClick: (String)->Unit) {
             )
 
         if (book != null) {
-            if(book.frontCoverByteArray.isNotEmpty()){
-                val bitmap = remember { book.frontCoverByteArray.toBitmap().asImageBitmap() }
-                Image(
-                    bitmap = bitmap,
-                    contentDescription = "Book Frontcover Item",
-                    alignment = Alignment.Center,
-                    contentScale = ContentScale.Crop
-                )
+            if(book.frontCoverPath.isNotEmpty()){
+                //val bitmap = remember { book.frontCoverPath.toBitmap().asImageBitmap() }
+//                Image(
+//                    bitmap = bitmap,
+//                    contentDescription = "Book Frontcover Item",
+//                    alignment = Alignment.Center,
+//                    contentScale = ContentScale.Crop
+//                )
+
             }else{
                 PlaceholderCover(Modifier)
             }
